@@ -1,6 +1,6 @@
 # safety-critical-rust-coding-guidelines
 
-Coding Guidelines for Safety Critical Rust developed by the [Safety Critical Rust Consortium](safety-critical-rust-consortium).
+Coding Guidelines for Safety Critical Rust developed by the [Safety Critical Rust Consortium][safety-critical-rust-consortium].
 
 ## [Code of Conduct][code-of-conduct]
 

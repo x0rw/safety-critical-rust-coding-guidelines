@@ -17,10 +17,14 @@ import sys
 EXTRA_WATCH_DIRS = ["exts", "themes"]
 
 
-def build_docs(root, builder, clear, serve, debug):
+def build_docs(root, builder, clear, serve, debug, offline):
     dest = root / "build"
 
     args = ["-b", builder, "-d", dest / "doctrees"]
+
+    if offline:  
+        args.append("-D")
+        args.append("offline=1")
     if debug:
         # Disable parallel builds and show exceptions in debug mode.
         #
@@ -75,6 +79,12 @@ def main(root):
         action="store_true",
     )
     group.add_argument(
+        "-o",
+        "--offline",
+        help="build on offline mode",
+        action="store_true",
+    )
+    group.add_argument(
         "--check-links", help="Check whether all links are valid", action="store_true"
     )
     group.add_argument(
@@ -88,6 +98,6 @@ def main(root):
     args = parser.parse_args()
 
     rendered = build_docs(
-        root, "xml" if args.xml else "html", args.clear, args.serve, args.debug
+        root, "xml" if args.xml else "html", args.clear, args.serve, args.debug, args.offline
     )
 

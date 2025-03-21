@@ -102,6 +102,12 @@ def main(root):
     parser.add_argument(
         "-c", "--clear", help="disable incremental builds", action="store_true"
     )
+    parser.add_argument(
+        "-o",
+        "--offline",
+        help="build in offline mode",
+        action="store_true",
+    )
     group = parser.add_mutually_exclusive_group()
     parser.add_argument(
         "--update-spec-lock-file",
@@ -112,12 +118,6 @@ def main(root):
         "-s",
         "--serve",
         help="start a local server with live reload",
-        action="store_true",
-    )
-    group.add_argument(
-        "-o",
-        "--offline",
-        help="build on offline mode",
         action="store_true",
     )
     group.add_argument(

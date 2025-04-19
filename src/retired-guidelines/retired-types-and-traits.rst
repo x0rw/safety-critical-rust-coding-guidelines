@@ -3,6 +3,6 @@
 
 .. default-domain:: coding-guidelines
 
-How to Read
-===========
+Retired Types and Traits
+========================
 

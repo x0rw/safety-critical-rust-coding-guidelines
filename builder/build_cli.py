@@ -13,6 +13,7 @@ import subprocess
 import sys
 import requests
 import json
+import time
 
 # Automatically watch the following extra directories when --serve is used.
 EXTRA_WATCH_DIRS = ["exts", "themes"]
@@ -20,10 +21,35 @@ EXTRA_WATCH_DIRS = ["exts", "themes"]
 SPEC_CHECKSUM_URL = "https://spec.ferrocene.dev/paragraph-ids.json"
 SPEC_LOCKFILE = "spec.lock"
 
-def build_docs(root, builder, clear, serve, debug, spec_lock_consistency_check):
+def build_docs(
+    root: Path,
+    builder: str,
+    clear: bool,
+    serve: bool,
+    debug: bool,
+    offline: bool,
+    spec_lock_consistency_check: bool
+) -> Path:
+    """
+    Builds the Sphinx documentation with the specified options.
+
+    Args:
+        root: The root directory of the documentation.
+        builder: The builder to use (e.g., 'html', 'xml').
+        clear: Whether to disable incremental builds.
+        serve: Whether to start a local server with live reload.
+        debug: Whether to enable debug mode.
+        offline: Whether to build in offline mode.
+        spec_lock_consistency_check: Whether to check spec lock consistency.
+
+    Returns:
+        Path: The path to the generated documentation.
+    """
+
     dest = root / "build"
 
     args = ["-b", builder, "-d", dest / "doctrees"]
+
     if debug:
         # Disable parallel builds and show exceptions in debug mode.
         #
@@ -42,6 +68,8 @@ def build_docs(root, builder, clear, serve, debug, spec_lock_consistency_check):
     # Add configuration options as needed
     if not spec_lock_consistency_check:
         conf_opt_values.append("enable_spec_lock_consistency=0")
+    if offline:  
+        conf_opt_values.append("offline=1")
     # Only add the --define argument if there are options to define
     if conf_opt_values:
         args.append("--define")
@@ -58,6 +86,9 @@ def build_docs(root, builder, clear, serve, debug, spec_lock_consistency_check):
         args += ["-W", "--keep-going"]
 
     try:
+
+        # Tracking build time
+        timer_start = time.perf_counter()
         subprocess.run(
             [
                 "sphinx-autobuild" if serve else "sphinx-build",
@@ -73,6 +104,8 @@ def build_docs(root, builder, clear, serve, debug, spec_lock_consistency_check):
         print("\nhint: if you see an exception, pass --debug to see the full traceback")
         exit(1)
 
+    timer_end = time.perf_counter()
+    print(f"\nBuild finished in {timer_end - timer_start:.2f} seconds.")
     return dest / builder
 
 def update_spec_lockfile(spec_checksum_location, lockfile_location):
@@ -110,16 +143,21 @@ def main(root):
     parser.add_argument(
         "-c", "--clear", help="disable incremental builds", action="store_true"
     )
+    parser.add_argument(
+        "--offline",
+        help="build in offline mode",
+        action="store_true",
+    )
     group = parser.add_mutually_exclusive_group()
     parser.add_argument(
         "--ignore-spec-lock-diff",
-        help="ignore fls.lock file differences with live release -- for WIP branches only",
+        help="ignore spec.lock file differences with live release -- for WIP branches only",
         default=False,
         action="store_true"
     )
     parser.add_argument(
         "--update-spec-lock-file",
-        help="update fls.lock file",
+        help="update spec.lock file",
         action="store_true"
     )
     group.add_argument(
@@ -145,6 +183,6 @@ def main(root):
         update_spec_lockfile(SPEC_CHECKSUM_URL, root / "src" / SPEC_LOCKFILE)
 
     rendered = build_docs(
-        root, "xml" if args.xml else "html", args.clear, args.serve, args.debug, not args.ignore_spec_lock_diff
+        root, "xml" if args.xml else "html", args.clear, args.serve, args.debug, args.offline, not args.ignore_spec_lock_diff
     )
 

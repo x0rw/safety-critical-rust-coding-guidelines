@@ -127,6 +127,10 @@ needs_releases = [
 # Enable needs export
 needs_extra_options = ["category", "recommendation", "fls", "decidability", "scope", "release"]
 
+
+# Required guideline fields
+required_guideline_fields = ['category', 'release', 'fls', 'decidability', 'scope', 'tags'] # Id is automatically generated
+
 # -- Options for HTML output -------------------------------------------------
 
 # Configure the theme

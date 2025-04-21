@@ -5,6 +5,7 @@ from . import fls_checks
 from . import write_guidelines_ids
 from . import std_role
 from . import fls_linking
+from . import guidelines_checks 
 
 from sphinx_needs.api import add_dynamic_function
 from sphinx.errors import SphinxError
@@ -14,7 +15,6 @@ import logging
 
 # Get the Sphinx logger
 logger = logging.getLogger('sphinx')
-
 
 class CodingGuidelinesDomain(Domain):
     name = "coding-guidelines"
@@ -52,9 +52,19 @@ def setup(app):
     app.add_config_value(name='enable_spec_lock_consistency',
                          default=True,
                          rebuild='env')
+    app.add_config_value(
+        name='required_guideline_fields',
+        default=['release', 'fls', 'decidability', 'scope'],
+        rebuild='env',
+        types=[list],
+    )
+
+    app.connect('env-check-consistency', guidelines_checks.validate_required_fields)
 
     app.connect('env-check-consistency', fls_checks.check_fls)
+
     app.connect('build-finished', write_guidelines_ids.build_finished)
+
     app.connect('build-finished', fls_linking.build_finished)
 
     return {

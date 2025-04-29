@@ -12,7 +12,7 @@ class IntegrityCheckError(SphinxError):
 
 def validate_required_fields(app, env):
     """
-
+    Validate the required fields defined in conf.py 
     """
     logger.debug("Validating required fields")
     data = SphinxNeedsData(env)
@@ -24,7 +24,7 @@ def validate_required_fields(app, env):
         if value.get('type') == 'guideline': # other types include rationale, non_compliant_example, compliant_example 
             missing_fields = []
             for field in required_fields:
-                if not value.get(field):
+                if value.get(field) in  (None, ''): # None or empty 
                     missing_fields.append(field)
             if missing_fields:
                 error_message = (
@@ -37,24 +37,3 @@ def validate_required_fields(app, env):
                 # exit(0)
                 raise IntegrityCheckError(error_message) 
             logger.info("No missing required field")
-
-            ####### 
-            # need_id = value.get('id')
-            # status = value.get('status')
-            # release = value.get('release')
-            # fls = value.get('fls')
-            # decidability = value.get('decidability')
-            # scope = value.get('scope')
-            # tags = value.get('tags')
-            #
-            # print(f"Guideline Need ID: {key}")
-            # print(f"  ID: {need_id}")
-            # print(f"  Status: {status}")
-            # print(f"  Release: {release}")
-            # print(f"  FLS: {fls}")
-            # print(f"  Decidability: {decidability}")
-            # print(f"  Scope: {scope}")
-            # print(f"  Tags: {tags}")
-            # print("=============================")
-
-

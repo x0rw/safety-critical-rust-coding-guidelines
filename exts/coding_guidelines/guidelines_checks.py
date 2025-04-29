@@ -21,10 +21,10 @@ def validate_required_fields(app, env):
     required_fields = app.config.required_guideline_fields  # Access the configured values
 
     for key, value in needs.items():
-        if value.get('type') == 'guideline': # other types include rationale, non_compliant_example, compliant_example 
+        if value.get('type') == 'guideline':
             missing_fields = []
             for field in required_fields:
-                if value.get(field) in  (None, ''): # None or empty 
+                if value.get(field) in  (None, ''):
                     missing_fields.append(field)
             if missing_fields:
                 error_message = (
@@ -34,6 +34,5 @@ def validate_required_fields(app, env):
                 )
                 logger.error(error_message)
                 app.builder.statuscode = 1
-                # exit(0)
                 raise IntegrityCheckError(error_message) 
             logger.info("No missing required field")

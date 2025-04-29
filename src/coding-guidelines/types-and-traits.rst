@@ -12,9 +12,6 @@ Types and Traits
    :status: draft
    :release: 1.85.0;1.85.1
    :fls: fls_cokwseo3nnr
-   :decidability: decidable
-   :scope: module
-   :tags: numerics
 
    Code must not rely on Rust's implicit integer wrapping behavior that occurs in release builds. 
    Instead, explicitly handle potential overflows using the standard library's checked, 

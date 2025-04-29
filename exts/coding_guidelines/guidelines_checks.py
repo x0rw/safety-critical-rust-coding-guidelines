@@ -24,8 +24,9 @@ def validate_required_fields(app, env):
         if value.get('type') == 'guideline':
             missing_fields = []
             for field in required_fields:
-                if value.get(field) in  (None, ''):
+                if value.get(field) in  (None, '', []):
                     missing_fields.append(field)
+
             if missing_fields:
                 error_message = (
                     f"Guideline '{value.get('title')}' (ID: {value.get('id')}) "

@@ -90,6 +90,71 @@ Macros
 
         // TODO
 
+.. guideline:: a macro should not be used in place of a function 
+   :id: gui_2jjWUoF1teOY
+   :category: mandatory
+   :status: draft
+   :release: todo
+   :fls: fls_xa7lp0zg1ol2
+   :decidability: decidable
+   :scope: system
+   :tags: reduce-human-error
+
+   Functions should always be preferred over macros, except when macros provide essential functionality that functions cannot, such as variadic interfaces, compile-time code generation, or syntax extensions via custom derive and attribute macros.
+    
+   |
+
+   .. rationale:: 
+      :id: rat_M9bp23ctkzQ7
+      :status: draft
+
+      Macros are powerful but they come at the cost of readability, complexity, and maintainability. They obfuscate control flow and type signatures,
+
+      **Debugging Complexity** 
+
+      - Errors point to expanded code rather than source locations, making it difficult to trace compile-time errors back to the original macro invocation.
+
+      **Optimization**
+      
+      - Macros may inhibit compiler optimizations that work better with functions.
+      - Macros act like ``#[inline(always)]`` functions, which can lead to code bloat.
+      - They don't benefit from the compiler's inlining heuristics, missing out on selective inlining where the compiler decides when inlining is beneficial.
+
+      **Functions provide**
+
+      - Clear type signatures.
+      - Predictable behavior.
+      - Proper stack traces.
+      - Consistent optimization opportunities.
+
+
+   .. non_compliant_example::
+      :id: non_compl_ex_TZgk2vG42t2r
+      :status: draft
+
+      Using a macro where a simple function would suffice:
+   
+      .. code-block:: rust
+   
+        macro_rules! add {
+          ($a:expr, $b:expr) => { $a + $b };
+        }
+
+   .. compliant_example::
+      :id: compl_ex_iPTgzrvO7qr3
+      :status: draft
+
+      Implementing the same functionality as a function:
+
+   
+      .. code-block:: rust
+
+        fn add(a: i32, b: i32) -> i32 { 
+          a + b 
+        }
+
+        let sum = add(2, 32);  // Clear, type-safe, and debuggable 
+
 .. guideline:: Shall not use Function-like Macros
    :id: gui_WJlWqgIxmE8P
    :category: mandatory

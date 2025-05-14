@@ -90,7 +90,7 @@ Macros
 
         // TODO
 
-.. guideline:: a macro should not be used in place of a function 
+.. guideline:: A macro should not be used in place of a function
    :id: gui_2jjWUoF1teOY
    :category: mandatory
    :status: draft
@@ -108,7 +108,7 @@ Macros
       :id: rat_M9bp23ctkzQ7
       :status: draft
 
-      Macros are powerful but they come at the cost of readability, complexity, and maintainability. They obfuscate control flow and type signatures,
+      Macros are powerful but they come at the cost of readability, complexity, and maintainability. They obfuscate control flow and type signatures.
 
       **Debugging Complexity** 
 

@@ -145,7 +145,6 @@ Macros
       :status: draft
 
       Implementing the same functionality as a function:
-
    
       .. code-block:: rust
 

@@ -132,27 +132,46 @@ Macros
       :id: non_compl_ex_TZgk2vG42t2r
       :status: draft
 
-      Using a macro where a simple function would suffice:
+      Using a macro where a simple function would suffice, leads to hidden mutation:
    
       .. code-block:: rust
-   
-        macro_rules! add {
-          ($a:expr, $b:expr) => { $a + $b };
+
+        macro_rules! increment_and_double {
+            ($x:expr) => {
+                {
+                    $x += 1; // mutation is implicit
+                    $x * 2
+                }
+            };
         }
+        let mut num = 5;
+        let result = increment_and_double!(num);
+        println!("Result: {}, Num: {}", result, num);
+        // Result: 12, Num: 6
+
+      In this example, calling the macro both increments and returns the value in one go—without any clear indication in its “signature” that it mutates its argument. As a result, num is changed behind the scenes, which can surprise readers and make debugging more difficult.
+
 
    .. compliant_example::
       :id: compl_ex_iPTgzrvO7qr3
       :status: draft
 
-      Implementing the same functionality as a function:
-   
+      The same functionality, implemented as a function with explicit borrowing:
+
       .. code-block:: rust
 
-        fn add(a: i32, b: i32) -> i32 { 
-          a + b 
+        fn increment_and_double(x: &mut i32) -> i32 {
+            *x += 1; // mutation is explicit 
+            *x * 2
         }
+        let mut num = 5;
+        let result = increment_and_double(&mut num);
+        println!("Result: {}, Num: {}", result, num);
+        // Result: 12, Num: 6
 
-        let sum = add(2, 32);  // Clear, type-safe, and debuggable 
+      The function version makes the mutation and borrowing explicit in its signature, improving readability, safety, and debuggability.
+
+      
 
 .. guideline:: Shall not use Function-like Macros
    :id: gui_WJlWqgIxmE8P

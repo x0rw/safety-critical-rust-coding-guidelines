@@ -9,9 +9,9 @@ import logging
 logger = logging.getLogger('sphinx')
 
 class ExecuteRustExamples(SphinxError):
-    category = "Integrity Check Error"
+    category = "ExecuteRustExamples Error"
 
-def execute_tests(app, env):
+def extract_execute_tests(app, env):
     """
     Aggregate and test rust examples
     """
@@ -19,15 +19,12 @@ def execute_tests(app, env):
     data = SphinxNeedsData(env)
     needs = data.get_needs_view()
 
-    required_fields = app.config.required_guideline_fields  # Access the configured values
-
     for key, value in needs.items():
-        print("======++++++++")
-
+        print("+++++++++++++")
         # print(key, " -- ", value)
         if key.startswith("non_compl_ex") or key.startswith("compl_ex"):
-
             text = value.get("content", "")
+            # todo: seperate this and test it well
             match = re.search(
                 r"\.\. code-block:: rust\s*\n\n((?: {2,}.*\n?)+)", text, re.DOTALL
             )

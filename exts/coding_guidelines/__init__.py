@@ -6,6 +6,7 @@ from . import write_guidelines_ids
 from . import std_role
 from . import fls_linking
 from . import guidelines_checks 
+from . import rust_examples_test 
 
 from sphinx_needs.api import add_dynamic_function
 from sphinx.errors import SphinxError
@@ -60,6 +61,7 @@ def setup(app):
     )
 
     app.connect('env-check-consistency', guidelines_checks.validate_required_fields)
+    app.connect('env-check-consistency', rust_examples_test.execute_tests)
 
     app.connect('env-check-consistency', fls_checks.check_fls)
 

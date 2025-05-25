@@ -6,7 +6,6 @@ from . import write_guidelines_ids
 from . import std_role
 from . import fls_linking
 from . import guidelines_checks 
-from . import rust_examples_test 
 
 from .common import logger, get_tqdm, bar_format, logging 
 from sphinx.domains import Domain

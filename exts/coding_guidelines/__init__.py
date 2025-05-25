@@ -11,6 +11,12 @@ from . import rust_examples_test
 from .common import logger, get_tqdm, bar_format, logging 
 from sphinx.domains import Domain
 
+import logging
+
+# Get the Sphinx logger
+logger = logging.getLogger('sphinx')
+logger.setLevel(logging.ERROR)
+
 class CodingGuidelinesDomain(Domain):
     name = "coding-guidelines"
     label = "Rust Standard Library"

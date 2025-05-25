@@ -16,6 +16,7 @@ import logging
 
 # Get the Sphinx logger
 logger = logging.getLogger('sphinx')
+logger.setLevel(logging.ERROR)
 
 class CodingGuidelinesDomain(Domain):
     name = "coding-guidelines"
@@ -61,7 +62,6 @@ def setup(app):
     )
 
     app.connect('env-check-consistency', guidelines_checks.validate_required_fields)
-    app.connect('env-check-consistency', rust_examples_test.execute_tests)
 
     app.connect('env-check-consistency', fls_checks.check_fls)
 

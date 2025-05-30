@@ -1,0 +1,52 @@
+name: Create PR from Issue Form
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  create-pr:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout default branch
+        uses: actions/checkout@v4
+
+      - name: Set up Git user
+        run: |
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+
+      - name: Extract issue data
+        id: issue
+        run: |
+          echo "BODY<<EOF" >> $GITHUB_ENV
+          echo "${{ github.event.issue.body }}" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+          echo "ISSUE_TITLE=${{ github.event.issue.title }}" >> $GITHUB_ENV
+          echo "ISSUE_NUMBER=${{ github.event.issue.number }}" >> $GITHUB_ENV
+
+      - name: Create a branch
+        run: |
+          BRANCH="issue-${{ github.event.issue.number }}"
+          git checkout -b $BRANCH
+          echo "${ISSUE_TITLE}" > issue-${ISSUE_NUMBER}.md
+          echo "" >> issue-${ISSUE_NUMBER}.md
+          echo "${BODY}" >> issue-${ISSUE_NUMBER}.md
+          git add issue-${ISSUE_NUMBER}.md
+          git commit -m "Add issue ${ISSUE_NUMBER} content"
+          git push origin $BRANCH
+          echo "BRANCH=$BRANCH" >> $GITHUB_ENV
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          title: "Auto PR test for issue #${{ env.ISSUE_NUMBER }}"
+          body: |
+            auto pr test
+            closes #${{ env.ISSUE_NUMBER }}.
+          head: ${{ env.BRANCH }}
+          base: main  # or your default branch

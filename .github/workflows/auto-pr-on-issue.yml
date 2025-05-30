@@ -1,4 +1,4 @@
-name: Auto PR 
+name: Auto PR
 
 on:
   issues:
@@ -25,36 +25,26 @@ jobs:
       - name: Extract issue fields
         id: extract
         run: |
-          echo "issue_number=${{ github.event.issue.number }}" >> $GITHUB_ENV
-          echo "issue_title=${{ github.event.issue.title }}" >> $GITHUB_ENV
-          echo "issue_body<<EOF" >> $GITHUB_ENV
+          echo "ISSUE_NUMBER=${{ github.event.issue.number }}" >> $GITHUB_ENV
+          echo "ISSUE_TITLE=${{ github.event.issue.title }}" >> $GITHUB_ENV
+          echo "ISSUE_BODY<<EOF" >> $GITHUB_ENV
           echo "${{ github.event.issue.body }}" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
-      - name: Create branch and file
+      - name: Create file from issue
         run: |
-          BRANCH="guideline-${{ env.issue_number }}"
-          git checkout -b "$BRANCH"
-
           mkdir -p guidelines
-          FILE="guidelines/guideline-${{ env.issue_number }}.md"
-
-          echo "# ${{ env.issue_title }}" > "$FILE"
+          FILE="guidelines/guideline-${ISSUE_NUMBER}.md"
+          echo "# ${ISSUE_TITLE}" > "$FILE"
           echo "" >> "$FILE"
-          echo "${issue_body}" >> "$FILE"
-
-          git add "$FILE"
-          git commit -m "Add guideline for issue #${{ env.issue_number }}"
-          git push origin "$BRANCH"
-
-          echo "BRANCH=$BRANCH" >> $GITHUB_ENV
+          echo "${ISSUE_BODY}" >> "$FILE"
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
-          branch: ${{ env.BRANCH }}
-          base: main
-          title: "Add guideline from issue #${{ env.issue_number }}"
+          commit-message: "Add guideline for issue #${{ env.ISSUE_NUMBER }}"
+          branch: guideline-${{ env.ISSUE_NUMBER }}
+          title: "Add guideline from issue #${{ env.ISSUE_NUMBER }}"
           body: |
-            This PR was automatically generated from issue #${{ env.issue_number }}.
-            Closes #${{ env.issue_number }}.
+            This PR was automatically generated from issue #${{ env.ISSUE_NUMBER }}.
+            Closes #${{ env.ISSUE_NUMBER }}.

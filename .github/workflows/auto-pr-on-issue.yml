@@ -1,37 +1,60 @@
-name: Create PR from Issue Form
+name: Auto PR 
 
 on:
   issues:
-    types: [opened]
-
-permissions:
-  contents: write
-  pull-requests: write
+    types:
+      - labeled
 
 jobs:
-  create-pr:
+  auto-pr:
+    if: contains(github.event.label.name, 'accepted')
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
 
     steps:
-      - name: Checkout default branch
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Git user
+      - name: Set up Git
         run: |
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
 
-      - name: Create file from issue
+      - name: Extract issue fields
+        id: extract
         run: |
-          echo "# ${{ github.event.issue.title }}" > issue-${{ github.event.issue.number }}.md
-          echo "" >> issue-${{ github.event.issue.number }}.md
-          echo "${{ github.event.issue.body }}" >> issue-${{ github.event.issue.number }}.md
+          echo "issue_number=${{ github.event.issue.number }}" >> $GITHUB_ENV
+          echo "issue_title=${{ github.event.issue.title }}" >> $GITHUB_ENV
+          echo "issue_body<<EOF" >> $GITHUB_ENV
+          echo "${{ github.event.issue.body }}" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
 
-      - name: Create PR
+      - name: Create branch and file
+        run: |
+          BRANCH="guideline-${{ env.issue_number }}"
+          git checkout -b "$BRANCH"
+
+          mkdir -p guidelines
+          FILE="guidelines/guideline-${{ env.issue_number }}.md"
+
+          echo "# ${{ env.issue_title }}" > "$FILE"
+          echo "" >> "$FILE"
+          echo "${issue_body}" >> "$FILE"
+
+          git add "$FILE"
+          git commit -m "Add guideline for issue #${{ env.issue_number }}"
+          git push origin "$BRANCH"
+
+          echo "BRANCH=$BRANCH" >> $GITHUB_ENV
+
+      - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
-          commit-message: "Add issue #${{ github.event.issue.number }} content"
-          branch: issue-${{ github.event.issue.number }}
+          branch: ${{ env.BRANCH }}
           base: main
-          title: "Auto PR for issue #${{ github.event.issue.number }}"
-          body: "Closes #${{ github.event.issue.number }}"
+          title: "Add guideline from issue #${{ env.issue_number }}"
+          body: |
+            This PR was automatically generated from issue #${{ env.issue_number }}.
+            Closes #${{ env.issue_number }}.

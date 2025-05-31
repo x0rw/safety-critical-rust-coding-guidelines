@@ -79,3 +79,40 @@ Concurrency
       .. code-block:: rust
    
         test ga
+.. guideline:: test ga
+   :id: gui_2XpFmA0uZEdD 
+   :category: advisory
+   :status: draft
+   :release: 1.1.1
+   :fls: fls_fsdjkfslkdfj
+   :decidability: decidable
+   :scope: crate
+   :tags: test,gatest,ga
+
+   
+
+   .. rationale:: 
+      :id: rat_9OU8JUOL68Ij 
+      :status: draft
+
+      test ga
+
+   .. non_compliant_example::
+      :id: non_compl_ex_L4HX04rQYoe7 
+      :status: draft
+
+      test ga
+   
+      .. code-block:: rust
+   
+        test ga
+
+   .. compliant_example::
+      :id: compl_ex_AuolnKWsZX9m 
+      :status: draft
+
+      test ga
+   
+      .. code-block:: rust
+   
+        test ga

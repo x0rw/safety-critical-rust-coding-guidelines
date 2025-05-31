@@ -1,5 +1,4 @@
 import json
-import os
 import re
 import random 
 import string
@@ -66,10 +65,11 @@ def save_guideline_file(content: str, chapter: str):
     # os.makedirs(f"src/coding-guidelines/{chapter}", exist_ok=True)
     filename = f"src/coding-guidelines/{chapter.lower()}.rst"
 
+    # for testing in the GA summary 
     print("=====CONTENT=====")
     print(content)
-
     print("=====CONTENT=END=====")
+
     with open(filename, 'a', encoding='utf-8') as f:
         f.write(content)
     print(f"Saved guideline to {filename}")

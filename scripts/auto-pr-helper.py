@@ -64,6 +64,11 @@ def extract_form_fields(issue_body: str) -> dict:
 def save_guideline_file(content: str, chapter: str):
     # os.makedirs(f"src/coding-guidelines/{chapter}", exist_ok=True)
     filename = f"src/coding-guidelines/{chapter.lower()}.rst"
+
+    print("=====CONTENT=====")
+    print(content)
+
+    print("=====CONTENT=END=====")
     with open(filename, 'a', encoding='utf-8') as f:
         f.write(content)
     print(f"Saved guideline to {filename}")
@@ -146,8 +151,6 @@ if __name__ == "__main__":
 
     content = guideline_template(fields)
 
-    print(content)
-    # content = generate_guideline(fields, issue_number, issue_title)
 
     save_guideline_file(content, chapter)
 

@@ -62,6 +62,7 @@ def extract_form_fields(issue_body: str) -> dict:
     return fields
 
 def save_guideline_file(content: str, chapter: str):
+    content = "++++++++" + content + "+++++"
     # os.makedirs(f"src/coding-guidelines/{chapter}", exist_ok=True)
     filename = f"src/coding-guidelines/{chapter.lower()}.rst"
 

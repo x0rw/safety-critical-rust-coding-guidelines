@@ -1,4 +1,4 @@
-name: Auto PR
+name: Auto Guideline PR
 
 on:
   issues:
@@ -41,7 +41,7 @@ jobs:
         with:
           commit-message: "Add guideline for issue #${{ github.event.issue.number }}"
           branch: guideline-${{ github.event.issue.number }}
-          title: "Add guideline from issue #${{ github.event.issue.number }}"
+          title: "[auto-pr] #${{ github.event.issue.number }}: ${{ github.event.issue.title }}"
           body: |
             This PR was automatically generated from issue #${{ github.event.issue.number }}.
             Closes #${{ github.event.issue.number }}.

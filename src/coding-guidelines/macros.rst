@@ -108,7 +108,8 @@ Macros
       :id: rat_M9bp23ctkzQ7
       :status: draft
 
-      Macros are powerful but they come at the cost of readability, complexity, and maintainability. They obfuscate control flow and type signatures.
+      Although the compiler reports both the macro expansion and its invocation site, diagnostics originating within macros can be more difficult to interpret than those from ordinary function or type definitions. Complex or deeply nested macros may obscure intent and hinder static analysis, increasing the risk of misinterpretation or overlooked errors during code review.
+     
 
       **Debugging Complexity** 
 

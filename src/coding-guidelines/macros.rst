@@ -137,9 +137,6 @@ Macros
 
       .. code-block:: rust
 
-        // HIDDEN START
-        use std::vec::*;
-        // HIDDEN END 
         macro_rules! increment_and_double {
             ($x:expr) => {
                 {
@@ -148,9 +145,7 @@ Macros
                 }
             };
         }
-        
         let mut num = 5;
-        let vv = Vec![];
         let result = increment_and_double!(num);
         println!("Result: {}, Num: {}", result, num);
         // Result: 12, Num: 6
@@ -375,8 +370,8 @@ Macros
       .. code-block:: rust
 
         #[tokio::main]  // non-compliant
-        async fn maind() {
-        //dd
+        async fn main() {
+
         }
 
    .. compliant_example::
@@ -407,7 +402,7 @@ Macros
       :id: rat_WJubG7KuUDLW
       :status: draft
 
-      Test rust code blocks test 
+      Explanation of why this guideline is important.
 
    .. non_compliant_example::
       :id: non_compl_ex_AyFnP0lJLHxi
@@ -429,18 +424,8 @@ Macros
 
       .. code-block:: rust
 
-        // HIDDEN START
-        use std::fs;
-        use std::io::{self, Read};
-        // HIDDEN END 
-
-        pub fn read_file_to_string(file_path: &str) -> io::Result<String> {
-            fs::read_to_string(file_path)
-
-            let mut file = fs::File::open(file_path)?; 
-            let mut contents = String::new();
-            file.read_to_string(&mut contents)?; 
-            Ok(contents)
+        fn example_function() {
+            // Compliant implementation
         }
 
 .. guideline:: Names in a macro definition shall use a fully qualified path

@@ -60,9 +60,9 @@ def remove_hidden_blocks_from_document(source_text):
         prefix = match.group(1)  
         code_content = match.group(2)
         cleaned_code, hidden_code = strip_hidden(code_content)
-        print("============")
-        print(hidden_code)
-        print("============")
+        # print("============")
+        # print(hidden_code)
+        # print("============")
         return prefix + cleaned_code 
 
     modified_text = code_block_re.sub(replacer, source_text)
@@ -76,12 +76,11 @@ def preprocess_rst_for_rust_code(app, docname, source):
     modified_content = remove_hidden_blocks_from_document(original_content)
     source[0] = modified_content
 
-    print(f"Original content length: {len(original_content)}")
-    print(f"Extracted {len(code_blocks)} code blocks")
+    # print(f"Original content length: {len(original_content)}")
+    # print(f"Extracted {len(code_blocks)} code blocks")
 
-    output_path = "exts/rust-code-runner/generated.rs"
     safe_docname = docname.replace("/", "_").replace("-", "_")
-    with open(output_path, "a", encoding="utf-8") as f:
+    with open(app.output_rust_file, "a", encoding="utf-8") as f:
         for i, block in enumerate(code_blocks, start=1):
             f.write(f"// ==== Code Block {i} ====\n")
             f.write("#[test]\n")

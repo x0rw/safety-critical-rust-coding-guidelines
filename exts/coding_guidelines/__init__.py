@@ -48,6 +48,13 @@ def on_build_finished(app, exception):
 def setup(app):
     
     app.add_domain(CodingGuidelinesDomain)
+
+    app.add_config_value(
+        name='test_rust_blocks',
+        default=False,
+        rebuild='env'
+    )
+
     app.add_config_value(
         name = "offline", 
         default=False, 
@@ -79,12 +86,14 @@ def setup(app):
         logger.setLevel(logging.INFO)
         common.disable_tqdm = True  
     
-    app.connect('env-check-consistency', guidelines_checks.validate_required_fields)
-    app.connect('env-check-consistency', fls_checks.check_fls)
-    app.connect('build-finished', write_guidelines_ids.build_finished)
-    app.connect('build-finished', fls_linking.build_finished)
-    app.connect('build-finished', on_build_finished)
-    
+    # Ignore builds while testing code blocks
+    if not app.config.test_rust_blocks:
+        app.connect('env-check-consistency', guidelines_checks.validate_required_fields)
+        app.connect('env-check-consistency', fls_checks.check_fls)
+        app.connect('build-finished', write_guidelines_ids.build_finished)
+        app.connect('build-finished', fls_linking.build_finished)
+        app.connect('build-finished', on_build_finished)
+        
     return {
         'version': '0.1',
         'parallel_read_safe': True,

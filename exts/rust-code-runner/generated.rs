@@ -1,5 +1,45 @@
 // ==== Code Block 1 ====
 #[test]
+fn test_block_coding_guidelines_concurrency_1() {
+            test ga
+}
+
+// ==== Code Block 2 ====
+#[test]
+fn test_block_coding_guidelines_concurrency_2() {
+            test ga
+}
+
+// ==== Code Block 3 ====
+#[test]
+fn test_block_coding_guidelines_concurrency_3() {
+       .. compliant_example::
+          :id: compl_ex_yp7aQuEi3Sag 
+          :status: draft
+}
+
+// ==== Code Block 4 ====
+#[test]
+fn test_block_coding_guidelines_concurrency_4() {
+            test ga
+}
+
+// ==== Code Block 5 ====
+#[test]
+fn test_block_coding_guidelines_concurrency_5() {
+       .. compliant_example::
+          :id: compl_ex_gqeLAg0YBu9P 
+          :status: draft
+}
+
+// ==== Code Block 6 ====
+#[test]
+fn test_block_coding_guidelines_concurrency_6() {
+            test ga
+}
+
+// ==== Code Block 1 ====
+#[test]
 fn test_block_coding_guidelines_expressions_1() {
              #[repr(C)]
              struct Base {

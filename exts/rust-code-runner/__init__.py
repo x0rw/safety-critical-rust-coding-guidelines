@@ -5,6 +5,10 @@ import os
 def setup(app):
 
     app.output_rust_file = "build/rust-code-blocks/generated.rs"
+
+    # create build dir 
+    if not os.path.exists("build/rust-code-blocks"):
+        os.makedirs("build/rust-code-blocks")
     if os.path.isfile(app.output_rust_file):
         with open(app.output_rust_file, 'w'):
             pass  

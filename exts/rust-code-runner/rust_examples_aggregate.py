@@ -2,10 +2,6 @@ from sphinx.errors import SphinxError
 import logging
 import re
 
-logger = logging.getLogger('sphinx')
-# reducing errors temporarly for dev
-logger.setLevel(logging.ERROR) 
-
 class ExecuteRustExamples(SphinxError):
     category = "ExecuteRustExamples Error"
 

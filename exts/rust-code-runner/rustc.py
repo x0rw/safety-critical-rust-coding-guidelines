@@ -56,26 +56,26 @@ def parse_rustc_json(stderr: str, file_path):
             continue
 
         if diagnostic.get("level") != "error":
-            continue  # skip warnings and notes
+            continue
 
         message = diagnostic.get("message", "")
         spans = diagnostic.get("spans", [])
 
-        # Try to find a span in the current file
+        # Prefer the primary span in the current file
         for span in spans:
-            if span["file_name"] == file_path:
+            if span.get("is_primary") and span["file_name"] == file_path: 
                 line_num = span["line_start"]
                 label = span.get("label", "")
                 print(f"error: line {line_num}: {message}")
                 if label:
                     print(f"--> {label}")
                 print("=" * 25)
-                snippet = print_code_snippet(file_path, line_num, context=3)
+                snippet = print_code_snippet(file_path, line_num, context=8)
                 print(snippet)
                 print("=" * 25)
-                return  # we return because we only print the first error--in json format there can be multiple error messages for 1 error-- if you want to see them comment this line.
+                return  # we return because we only print the first error--in json format there can be multiple error messages(primary and non primary) for 1 error-- if you want to see them comment this line.
 
-        # If no span in the file, still print the error
+        # fallback: print the error message if no span in the current file
         print(f"error: {message}")
         return
 
@@ -105,8 +105,8 @@ def check_rust_test_errors(app, exception):
     if result.returncode != 0:
         print("--- rustc Errors/Warnings ---")
         parse_rustc_json(result.stderr, app.output_rust_file)
-        print("--- rustc Output ---")
-        print(result.stdout)
+        # print("--- rustc Output ---")
+        # print(result.stdout)
 
     else:
         print("--- rustc Output  ---")

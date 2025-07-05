@@ -24,7 +24,7 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
+ # tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
 """,
         encoding="utf-8",
     )

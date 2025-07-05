@@ -64,11 +64,33 @@ def remove_hidden_blocks_from_document(source_text):
     modified_text = code_block_re.sub(replacer, source_text)
     return modified_text
 
+import re
+
+def sanitize_code_blocks(code_blocks):
+    """
+    Removes unwanted attributes from each Rust code block:
+      - `#[macro_export]` (to avoid exported-macro conflicts)
+      - `#[tokio::main]`     (to keep compilation as a library/test)
+    """
+    patterns = [
+        r'\s*#\s*\[macro_export\]',
+        r'\s*#\s*\[tokio::main\]'
+    ]
+    sanitized = []
+    for block in code_blocks:
+        lines = block.splitlines()
+        cleaned = [
+            line for line in lines
+            if not any(re.match(pat, line) for pat in patterns)
+        ]
+        sanitized.append("\n".join(cleaned))
+    return sanitized
 
 def preprocess_rst_for_rust_code(app, docname, source):
 
     original_content = source[0]
     code_blocks = extract_code_blocks(original_content)
+    code_blocks = sanitize_code_blocks(code_blocks) 
     modified_content = remove_hidden_blocks_from_document(original_content)
     source[0] = modified_content
 
@@ -76,11 +98,17 @@ def preprocess_rst_for_rust_code(app, docname, source):
     # print(f"Extracted {len(code_blocks)} code blocks")
 
     safe_docname = docname.replace("/", "_").replace("-", "_")
-    with open(app.output_rust_file, "a", encoding="utf-8") as f:
-        for i, block in enumerate(code_blocks, start=1):
-            f.write(f"// ==== Code Block {i} ====\n")
-            f.write("#[test]\n")
-            f.write(f"fn test_block_{safe_docname}_{i}() {{\n")
-            for line in block.splitlines():
-                f.write(f"    {line}\n") 
-            f.write("}\n\n")
+    try:
+        with open(app.output_rust + "src/lib.rs", "a", encoding="utf-8") as f:
+            for i, block in enumerate(code_blocks, start=1):
+                f.write(f"// ==== Code Block {i} ====\n")
+                f.write(f"mod code_block_{i}_{safe_docname} {{\n")
+                f.write("    #[test]\n")
+                f.write(f"    fn test_block_{safe_docname}_{i}() {{\n")
+                for line in block.splitlines():
+                    f.write(f"        {line}\n")  # extra indent for the module
+                f.write("    }\n")  # close fn
+                f.write("}\n\n")    # close mod
+    except Exception as e:
+        print("Error writing file:", e)
+

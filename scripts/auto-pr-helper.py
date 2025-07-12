@@ -3,44 +3,22 @@ import re
 import random 
 import string
 
+import sys, os
 
-def generate_id(prefix):
-    """
-    Generate a random ID with the given prefix.
-    """
+scriptpath = "../"
+script_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.abspath(os.path.join(script_dir, ".."))
+sys.path.append(parent_dir)
 
-    CHARS = string.ascii_letters + string.digits
-    ID_LENGTH = 12
-    random_part = "".join(random.choice(CHARS) for _ in range(ID_LENGTH))
-    return f"{prefix}_{random_part}"
+from generate_guideline_templates import generate_id, guideline_rst_template, header_map, issue_header_map
+
 
 def extract_form_fields(issue_body: str) -> dict:
     """
     This function parses issues json into a dict of important fields
     """
-    # Mapping from issue body headers to dict keys
-    # Changing issues fields name to snake_case (eg. 'Guideline Title' => 'guideline_title')
-    header_map = {
-        "Chapter": "chapter",
-        "Guideline Title": "guideline_title",
-        "Category": "category",
-        "Status": "status",
-        "Release Begin": "release_begin",
-        "Release End": "release_end",
-        "FLS Paragraph ID": "fls_id",
-        "Decidability": "decidability",
-        "Scope": "scope",
-        "Tags": "tags",
-        "Amplification": "amplification",
-        "Exception(s)": "exceptions",
-        "Rationale": "rationale",
-        "Non-Compliant Example - Prose": "non_compliant_ex_prose",
-        "Non-Compliant Example - Code": "non_compliant_ex",
-        "Compliant Example - Prose": "compliant_example_prose",
-        "Compliant Example - Code": "compliant_example",
-    }
 
-    fields = {v: "" for v in header_map.values()}
+    fields = {v: "" for v in issue_header_map.values()}
 
     lines = issue_body.splitlines()
     current_key = None
@@ -74,8 +52,6 @@ def save_guideline_file(content: str, chapter: str):
     Appends a guideline str to a chapter
 
     """
-    content = "\n" + content + "\n"
-    # os.makedirs(f"src/coding-guidelines/{chapter}", exist_ok=True)
     filename = f"src/coding-guidelines/{chapter.lower()}.rst"
 
     # for testing in the GA summary 
@@ -105,44 +81,23 @@ def guideline_template(fields: dict) -> str:
         return fields.get(key, "").strip()
 
 
-    guideline_text = f""".. guideline:: {get('guideline_title')}
-   :id: {guideline_id} 
-   :category: {get('category').lower()}
-   :status: {get('status').lower()}
-   :release: {get('release_begin').lower()}-{get('release_end')}
-   :fls: {get('fls_id').lower()}
-   :decidability: {get('decidability').lower()}
-   :scope: {get('scope').lower()}
-   :tags: {",".join(get('tags').split(" "))}
-
-   {get('amplification')}
-
-   .. rationale:: 
-      :id: {rationale_id} 
-      :status: {get('status').lower()}
-
-      {get('rationale')}
-
-   .. non_compliant_example::
-      :id: {non_compliant_example_id} 
-      :status: {get('status').lower()}
-
-      {get('non_compliant_ex_prose')}
-   
-      .. code-block:: rust
-   
-        {get('non_compliant_ex')}
-
-   .. compliant_example::
-      :id: {compliant_example_id} 
-      :status: {get('status').lower()}
-
-      {get('compliant_example_prose')}
-   
-      .. code-block:: rust
-   
-        {get('compliant_example')}
-"""
+    guideline_text = guideline_rst_template(
+        guideline_title=get("guideline_title"),
+        category=get("category"),
+        status=get("status"),
+        release_begin=get("release_begin"),
+        release_end=get("release_end"),
+        fls_id=get("fls_id"),
+        decidability=get("decidability"),
+        scope=get("scope"),
+        tags=get("tags"),
+        amplification=get("amplification"),
+        rationale=get("rationale"),
+        non_compliant_ex_prose=get("non_compliant_ex_prose"),
+        non_compliant_ex=get("non_compliant_ex"),
+        compliant_example_prose=get("compliant_example_prose"),
+        compliant_example=get("compliant_example")
+    )
 
     return guideline_text
 

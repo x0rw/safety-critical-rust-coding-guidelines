@@ -7,7 +7,7 @@ on:
 
 jobs:
   auto-pr:
-    if: "github.event.label.name == 'status: approved'"
+    if: "github.event.label.name == 'sign-off: create pr from issue'"
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -24,12 +24,12 @@ jobs:
 
       # - name: Save issue JSON payload to file
       #   run: echo '${{ toJson(github.event.issue) }}' > issue.json
-      #   pass it directly -- mayne fallback to this if an issue happened due to 
+      #   pass it directly -- maybe fallback to this if an issue happened due to 
       #   pipe-ing or encoding 
 
       - name: Run Python script to generate guideline file
         run: |
-          echo '${{ toJson(github.event.issue) }}' | python3 scripts/auto-pr-helper.py
+          echo '${{ toJson(github.event.issue) }}' | uv run python scripts/auto-pr-helper.py
 
       - name: Commit generated guideline files
         run: |

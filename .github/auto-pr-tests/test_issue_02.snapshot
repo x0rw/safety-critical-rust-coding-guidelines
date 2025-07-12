@@ -1,0 +1,41 @@
+=====CONTENT=====
+.. guideline:: test 2
+   :id: gui_10X7r6yledzw 
+   :category: advisory
+   :status: draft
+   :release: 1.1.1-1.1.1
+   :fls: fls_fsdjkfslkdfj
+   :decidability: decidable
+   :scope: crate
+   :tags: test,gatest,ga
+
+   hehehehe
+
+   .. rationale:: 
+      :id: rat_Qpq2pZlovd7Z 
+      :status: draft
+
+      test ga
+
+   .. non_compliant_example::
+      :id: non_compl_ex_qSOda5w4rWt4 
+      :status: draft
+
+      test ga
+   
+      .. code-block:: rust
+   
+        dfhsdfkjshdfskdjhftest ga
+
+   .. compliant_example::
+      :id: compl_ex_qwzzxQs8JO27 
+      :status: draft
+
+      test ga
+   
+      .. code-block:: rust
+   
+        test ga
+
+=====CONTENT=END=====
+Saved guideline to src/coding-guidelines/concurrency.rst

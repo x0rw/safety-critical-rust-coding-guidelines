@@ -10,7 +10,7 @@ script_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.abspath(os.path.join(script_dir, ".."))
 sys.path.append(parent_dir)
 
-from generate_guideline_templates import generate_id, guideline_rst_template, header_map, issue_header_map
+from generate_guideline_templates import generate_id, guideline_rst_template, issue_header_map
 
 
 def extract_form_fields(issue_body: str) -> dict:
@@ -40,7 +40,7 @@ def extract_form_fields(issue_body: str) -> dict:
                     fields[current_key] = value
 
             header = header_match.group(1).strip()
-            current_key = header_map.get(header)  # Map to dict key or None if unknown
+            current_key = issue_header_map.get(header)  # Map to dict key or None if unknown
             current_value_lines = []
         else:
             current_value_lines.append(line)

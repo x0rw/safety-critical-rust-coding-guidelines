@@ -131,7 +131,7 @@ def guideline_template(fields: dict) -> str:
    
       .. code-block:: rust
    
-        {get('non_compliant_example')}
+        {get('non_compliant_ex')}
 
    .. compliant_example::
       :id: {compliant_example_id} 

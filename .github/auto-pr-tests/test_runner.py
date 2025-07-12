@@ -38,9 +38,9 @@ def compare(issue_json_path: Path, snapshot_path: Path) -> bool:
         print(f"{issue_json_path.name} matches snapshot.")
         return True
 
-# to generate snapshot i use this command:
-# create or change the test_issue_xx file
-## `cat .github/auto-pr-tests/test_issue_XX.json | python3 scripts/auto-pr-helper.py 2&>/dev/null > .github/auto-pr-tests/test_issue_0XX.snapshot`
+# to generate snapshot:
+# create or change the test_issue_xx file and then use this command after replacing XX with your test number:
+## `cat .github/auto-pr-tests/test_issue_XX.json | uv run python scripts/auto-pr-helper.py 2&>/dev/null > .github/auto-pr-tests/test_issue_0XX.snapshot`
 tests = {
     "test_01": (
         Path(".github/auto-pr-tests/test_issue_01.json"),

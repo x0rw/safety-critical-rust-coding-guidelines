@@ -107,7 +107,7 @@ if __name__ == "__main__":
 
     # parse arguments
     parser = argparse.ArgumentParser(description="Generate guideline from GitHub issue JSON.")
-    parser.add_argument("--saved", action="store_true", help="Save the generated guideline file.")
+    parser.add_argument("--save", action="store_true", help="Save the generated guideline file.")
     args = parser.parse_args()
 
     ## locally test with `cat scripts/test_issue_sample.json | python3 scripts/auto-pr-helper.py`
@@ -129,5 +129,5 @@ if __name__ == "__main__":
     print(content)
     print("=====CONTENT=END=====")
 
-    if args.saved:
+    if args.save:
             save_guideline_file(content, chapter)

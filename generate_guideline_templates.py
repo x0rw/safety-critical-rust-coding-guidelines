@@ -134,17 +134,10 @@ def generate_guideline_template():
             amplification="Description of the guideline goes here.",
             rationale="Explanation of why this guideline is important.",
             non_compliant_ex_prose="Explanation of code example.",
-            non_compliant_ex="""
-    fn example_function() {
-        // Non-compliant implementation
-    }
-    """,
+            non_compliant_ex=""" fn example_function() {\n          // Non-compliant implementation\n       } """,
             compliant_example_prose="Explanation of code example.",
-            compliant_example="""
-    fn example_function() {
-        // Compliant implementation
-    }
-    """)
+            compliant_example=""" fn example_function() {\n          // Compliant implementation\n       } """,
+    )
     return template
 
 def parse_args():

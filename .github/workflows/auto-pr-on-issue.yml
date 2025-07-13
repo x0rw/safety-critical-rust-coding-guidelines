@@ -33,7 +33,7 @@ jobs:
 
       - name: Run Python script to generate guideline file
         run: |
-          echo '${{ toJson(github.event.issue) }}' | uv run python scripts/auto-pr-helper.py
+          echo '${{ toJson(github.event.issue) }}' | uv run python scripts/auto-pr-helper.py --save
 
       - name: Commit generated guideline files
         run: |

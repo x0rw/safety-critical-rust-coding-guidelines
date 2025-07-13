@@ -3,6 +3,7 @@ name: Snapshot Tests for auto-pr
 on:
   push:
     paths:
+        - 'generate_guideline_templates.py'
       - 'scripts/auto-pr-helper.py'
       - '.github/auto-pr-tests/**'
   workflow_dispatch:      # also allow manual runs

@@ -50,7 +50,7 @@ def guideline_rst_template(
     compliant_example: str
 ) -> str:
     """
-    Generate a .rst guideline entry from feilds values.
+    Generate a .rst guideline entry from field values.
     """
 
     # Generate unique IDs

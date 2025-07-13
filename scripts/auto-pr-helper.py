@@ -49,10 +49,9 @@ def extract_form_fields(issue_body: str) -> dict:
 
 def save_guideline_file(content: str, chapter: str):
     """
-    Appends a guideline str to a chapter
-
+    Appends a guideline to a chapter
     """
-    filename = f"src/coding-guidelines/{chapter.lower()}.rst"
+    filename = f"src/coding-guidelines/{chapter.lower().replace(' ', '-')}.rst"
 
     # for testing in the GA summary 
     print("=====CONTENT=====")
@@ -70,8 +69,7 @@ def guideline_template(fields: dict) -> str:
     """
     
 
-    # taken from generate-guideline-templates.py
-    # to generate random ids
+    # generate random ids
     guideline_id = generate_id("gui")
     rationale_id = generate_id("rat")
     non_compliant_example_id = generate_id("non_compl_ex")
@@ -80,6 +78,15 @@ def guideline_template(fields: dict) -> str:
     def get(key):
         return fields.get(key, "").strip()
 
+    def format_code_block(code: str, lang: str = "rust") -> str:
+        lines = code.strip().splitlines()
+        if lines and lines[0].strip().startswith("```"):
+            # Strip the ```rust and ``` lines
+            lines = lines[1:]
+            if lines and lines[-1].strip() == "```":
+                lines = lines[:-1]
+        indented_code = "\n".join(f"         {line}" for line in lines)  # indentation 
+        return f"\n\n{indented_code}\n"
 
     guideline_text = guideline_rst_template(
         guideline_title=get("guideline_title"),
@@ -94,40 +101,28 @@ def guideline_template(fields: dict) -> str:
         amplification=get("amplification"),
         rationale=get("rationale"),
         non_compliant_ex_prose=get("non_compliant_ex_prose"),
-        non_compliant_ex=get("non_compliant_ex"),
+        non_compliant_ex=format_code_block(get("non_compliant_ex")),
         compliant_example_prose=get("compliant_example_prose"),
-        compliant_example=get("compliant_example")
+        compliant_example=format_code_block(get("compliant_example"))
     )
 
     return guideline_text
 
 import sys
 if __name__ == "__main__":
-    # for testing purposes pull an issue in json format 
-    # eg https://api.github.com/repos/x0rw/safety-critical-rust-coding-guidelines/issues/4
-    # this json is how the issue is visible to the GA bot
-    #
-    # with open('scripts/issue_sample.json', 'r', encoding='utf-8') as f:
-    #     issue = json.load(f)
-    #
 
     ## locally test with `cat scripts/test_issue_sample.json | python3 scripts/auto-pr-helper.py`
+    ## or use `curl https://api.github.com/repos/rustfoundation/safety-critical-rust-coding-guidelines/issues/135 | uv run python scripts/auto-pr-helper.py`
+
 
     # Read json from stdin
-    issue_json = sys.stdin.read()
-    issue = json.loads(issue_json)
+    stdin_issue_json = sys.stdin.read()
+    json_issue = json.loads(stdin_issue_json)
 
-    issue_number = issue['number']
-    issue_title = issue['title']
-    issue_body = issue['body']
-
+    issue_number = json_issue['number']
+    issue_title = json_issue['title']
+    issue_body = json_issue['body']
     fields = extract_form_fields(issue_body)
     chapter = fields["chapter"]
-
-
     content = guideline_template(fields)
-
-
     save_guideline_file(content, chapter)
-
-

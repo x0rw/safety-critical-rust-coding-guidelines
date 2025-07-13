@@ -2,8 +2,9 @@ import json
 import re
 import random 
 import string
-
-import sys, os
+import argparse
+import sys
+import os
 
 scriptpath = "../"
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -52,12 +53,6 @@ def save_guideline_file(content: str, chapter: str):
     Appends a guideline to a chapter
     """
     filename = f"src/coding-guidelines/{chapter.lower().replace(' ', '-')}.rst"
-
-    # for testing in the GA summary 
-    print("=====CONTENT=====")
-    print(content)
-    print("=====CONTENT=END=====")
-
     with open(filename, 'a', encoding='utf-8') as f:
         f.write(content)
     print(f"Saved guideline to {filename}")
@@ -108,8 +103,12 @@ def guideline_template(fields: dict) -> str:
 
     return guideline_text
 
-import sys
 if __name__ == "__main__":
+
+    # parse arguments
+    parser = argparse.ArgumentParser(description="Generate guideline from GitHub issue JSON.")
+    parser.add_argument("--saved", action="store_true", help="Save the generated guideline file.")
+    args = parser.parse_args()
 
     ## locally test with `cat scripts/test_issue_sample.json | python3 scripts/auto-pr-helper.py`
     ## or use `curl https://api.github.com/repos/rustfoundation/safety-critical-rust-coding-guidelines/issues/135 | uv run python scripts/auto-pr-helper.py`
@@ -125,4 +124,10 @@ if __name__ == "__main__":
     fields = extract_form_fields(issue_body)
     chapter = fields["chapter"]
     content = guideline_template(fields)
-    save_guideline_file(content, chapter)
+
+    print("=====CONTENT=====")
+    print(content)
+    print("=====CONTENT=END=====")
+
+    if args.saved:
+            save_guideline_file(content, chapter)

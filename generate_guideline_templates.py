@@ -103,6 +103,7 @@ def guideline_rst_template(
 """
 
     return guideline_text
+
 def generate_id(prefix):
     """Generate a random ID with the given prefix."""
     random_part = "".join(random.choice(CHARS) for _ in range(ID_LENGTH))

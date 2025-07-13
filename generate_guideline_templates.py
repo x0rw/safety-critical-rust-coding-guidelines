@@ -5,6 +5,7 @@
 import argparse
 import string
 import random
+from textwrap import dedent, indent
 
 # Configuration
 CHARS = string.ascii_letters + string.digits
@@ -63,44 +64,47 @@ def guideline_rst_template(
     def norm(value: str) -> str:
         return value.strip().lower()
 
-    guideline_text = f""".. guideline:: {guideline_title.strip()}
-   :id: {guideline_id} 
-   :category: {norm(category)}
-   :status: {norm(status)}
-   :release: {norm(release_begin)}-{release_end.strip()}
-   :fls: {norm(fls_id)}
-   :decidability: {norm(decidability)}
-   :scope: {norm(scope)}
-   :tags: {",".join(tags.strip().split())}
+    indented_compliant_ex= indent(compliant_example.strip(), " " * 13)
+    indented_non_compliant_ex= indent(non_compliant_ex.strip(), " " * 13)
+    guideline_text = dedent(f"""
+        .. guideline:: {guideline_title.strip()}
+            :id: {guideline_id} 
+            :category: {norm(category)}
+            :status: {norm(status)}
+            :release: {norm(release_begin)}-{release_end.strip()}
+            :fls: {norm(fls_id)}
+            :decidability: {norm(decidability)}
+            :scope: {norm(scope)}
+            :tags: {",".join(tags.strip().split())}
 
-   {amplification.strip()}
+            {amplification.strip()}
 
-   .. rationale:: 
-      :id: {rationale_id} 
-      :status: {norm(status)}
+            .. rationale:: 
+                :id: {rationale_id} 
+                :status: {norm(status)}
 
-      {rationale.strip()}
+                {rationale.strip()}
 
-   .. non_compliant_example::
-      :id: {non_compliant_example_id} 
-      :status: {norm(status)}
+            .. non_compliant_example::
+                :id: {non_compliant_example_id} 
+                :status: {norm(status)}
 
-      {non_compliant_ex_prose.strip()}
-   
-      .. code-block:: rust
-   
-        {non_compliant_ex.strip()}
+                {non_compliant_ex_prose.strip()}
+            
+                .. code-block:: rust
+                
+                    {indented_non_compliant_ex.strip()}
 
-   .. compliant_example::
-      :id: {compliant_example_id} 
-      :status: {norm(status)}
+            .. compliant_example::
+                :id: {compliant_example_id} 
+                :status: {norm(status)}
 
-      {compliant_example_prose.strip()}
-   
-      .. code-block:: rust
-   
-        {compliant_example.strip()}
-"""
+                {compliant_example_prose.strip()}
+            
+                .. code-block:: rust
+                
+                    {indented_compliant_ex.strip()}
+    """)
 
     return guideline_text
 

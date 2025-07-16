@@ -13,7 +13,6 @@ dependencies = [
     "sphinx-needs>=5.1.0",
     "sphinx-rtd-theme>=3.0.2",
 ]
-dev-dependencies = ["ruff>=0.0.275"]
 
 [tool.uv.workspace]
 members = ["builder"]
@@ -38,6 +37,11 @@ lint.select = [
 
 [tool.ruff.lint.flake8-comprehensions]
 allow-dict-calls-with-keyword-arguments = true
+
+[dependency-groups]
+dev = [
+    "ruff>=0.12.3",
+]
 
 # [tool.ruff.mccabe]
 # max-complexity = 10

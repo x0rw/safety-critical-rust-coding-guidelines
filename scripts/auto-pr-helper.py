@@ -62,13 +62,6 @@ def guideline_template(fields: dict) -> str:
     This function turns a dictionary that contains the guideline fields 
     into a proper .rst guideline format
     """
-    
-
-    # generate random ids
-    guideline_id = generate_id("gui")
-    rationale_id = generate_id("rat")
-    non_compliant_example_id = generate_id("non_compl_ex")
-    compliant_example_id = generate_id("compl_ex")
 
     def get(key):
         return fields.get(key, "").strip()

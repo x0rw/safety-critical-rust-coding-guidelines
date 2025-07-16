@@ -26,11 +26,6 @@ jobs:
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
 
-      # - name: Save issue JSON payload to file
-      #   run: echo '${{ toJson(github.event.issue) }}' > issue.json
-      #   pass it directly -- maybe fallback to this if an issue happened due to 
-      #   pipe-ing or encoding 
-
       - name: Run Python script to generate guideline file
         run: |
           echo '${{ toJson(github.event.issue) }}' | uv run python scripts/auto-pr-helper.py --save

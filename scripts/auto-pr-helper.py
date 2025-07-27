@@ -3,6 +3,8 @@ import re
 import argparse
 import sys
 import os
+from textwrap import indent
+from m2r import convert
 
 scriptpath = "../"
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -13,10 +15,6 @@ from generate_guideline_templates import (
     guideline_rst_template,
     issue_header_map,
 )
-
-from textwrap import indent
-
-from m2r import convert
 
 
 def md_to_rst(markdown: str) -> str:

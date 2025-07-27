@@ -37,7 +37,6 @@ jobs:
         with:
           add-paths: |
             src/coding-guidelines/
-        with:
           commit-message: |
             Add guideline for issue #${{ github.event.issue.number }}
 

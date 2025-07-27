@@ -28,7 +28,9 @@ jobs:
 
       - name: Run Python script to generate guideline file
         run: |
-          uv run python scripts/auto-pr-helper.py --save <<< '${{ toJson(github.event.issue) }}'
+          cat <<EOF | uv run python scripts/auto-pr-helper.py --save
+          ${{ toJson(github.event.issue) }}
+          EOF
 
       - name: Commit generated guideline files
         run: |

@@ -33,6 +33,7 @@ issue_header_map = {
     "Compliant Example - Code": "compliant_example",
 }
 
+
 def guideline_rst_template(
     guideline_title: str,
     category: str,
@@ -48,7 +49,7 @@ def guideline_rst_template(
     non_compliant_ex_prose: str,
     non_compliant_ex: str,
     compliant_example_prose: str,
-    compliant_example: str
+    compliant_example: str,
 ) -> str:
     """
     Generate a .rst guideline entry from field values.
@@ -64,8 +65,8 @@ def guideline_rst_template(
     def norm(value: str) -> str:
         return value.strip().lower()
 
-    indented_compliant_ex= indent(compliant_example.strip(), " " * 13)
-    indented_non_compliant_ex= indent(non_compliant_ex.strip(), " " * 13)
+    indented_compliant_ex = indent(compliant_example.strip(), " " * 13)
+    indented_non_compliant_ex = indent(non_compliant_ex.strip(), " " * 13)
     guideline_text = dedent(f"""
         .. guideline:: {guideline_title.strip()}
             :id: {guideline_id} 
@@ -108,10 +109,12 @@ def guideline_rst_template(
 
     return guideline_text
 
+
 def generate_id(prefix):
     """Generate a random ID with the given prefix."""
     random_part = "".join(random.choice(CHARS) for _ in range(ID_LENGTH))
     return f"{prefix}_{random_part}"
+
 
 def generate_guideline_template():
     """Generate a complete guideline template with all required sections."""
@@ -120,25 +123,26 @@ def generate_guideline_template():
     rationale_id = generate_id("rat")
     non_compliant_example_id = generate_id("non_compl_ex")
     compliant_example_id = generate_id("compl_ex")
-        
+
     template = guideline_rst_template(
-            guideline_title="Title Here",
-            category="",
-            status="draft",
-            release_begin="",
-            release_end="",
-            fls_id="",
-            decidability="",
-            scope="",
-            tags="",
-            amplification="Description of the guideline goes here.",
-            rationale="Explanation of why this guideline is important.",
-            non_compliant_ex_prose="Explanation of code example.",
-            non_compliant_ex=""" fn example_function() {\n          // Non-compliant implementation\n       } """,
-            compliant_example_prose="Explanation of code example.",
-            compliant_example=""" fn example_function() {\n          // Compliant implementation\n       } """,
+        guideline_title="Title Here",
+        category="",
+        status="draft",
+        release_begin="",
+        release_end="",
+        fls_id="",
+        decidability="",
+        scope="",
+        tags="",
+        amplification="Description of the guideline goes here.",
+        rationale="Explanation of why this guideline is important.",
+        non_compliant_ex_prose="Explanation of code example.",
+        non_compliant_ex=""" fn example_function() {\n          // Non-compliant implementation\n       } """,
+        compliant_example_prose="Explanation of code example.",
+        compliant_example=""" fn example_function() {\n          // Compliant implementation\n       } """,
     )
     return template
+
 
 def parse_args():
     """Parse command-line arguments."""
@@ -146,28 +150,30 @@ def parse_args():
         description="Generate guideline templates with randomly generated IDs"
     )
     parser.add_argument(
-        "-n", 
-        "--number-of-templates", 
-        type=int, 
+        "-n",
+        "--number-of-templates",
+        type=int,
         default=1,
-        help="Number of templates to generate (default: 1)"
+        help="Number of templates to generate (default: 1)",
     )
     return parser.parse_args()
+
 
 def main():
     """Generate the specified number of guideline templates."""
     args = parse_args()
     num_templates = args.number_of_templates
-    
+
     for i in range(num_templates):
         if num_templates > 1:
-            print(f"=== Template {i+1} ===\n")
-        
+            print(f"=== Template {i + 1} ===\n")
+
         template = generate_guideline_template()
         print(template)
-        
+
         if num_templates > 1 and i < num_templates - 1:
             print("\n" + "=" * 80 + "\n")
+
 
 if __name__ == "__main__":
     main()

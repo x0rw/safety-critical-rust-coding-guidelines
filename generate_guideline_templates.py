@@ -76,7 +76,7 @@ def guideline_rst_template(
             :fls: {norm(fls_id)}
             :decidability: {norm(decidability)}
             :scope: {norm(scope)}
-            :tags: {",".join(tags.strip().split())}
+            :tags: {tags}
 
             {amplification.strip()}
 

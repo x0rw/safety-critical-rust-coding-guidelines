@@ -1,14 +1,17 @@
+================
+numerics, reduce-human-error, maintainability, portability, surprising-behavior
+================
 =====CONTENT=====
 
 .. guideline:: Integer shift shall only be performed through `checked_` APIs
-    :id: gui_U9mRD3cb9Iic 
+    :id: gui_L1efkdhJroHY 
     :category: mandatory
     :status: draft
     :release: 1.7.0-latest
     :fls: fls_sru4wi5jomoe
     :decidability: decidable
     :scope: module
-    :tags: numerics,,reduce-human-error,,maintainability,,portability,,surprising-behavior
+    :tags: numerics, reduce-human-error, maintainability, portability, surprising-behavior
 
     In particular, the user should only perform left shifts via the `checked_shl <https://doc.rust-lang.org/core/index.html?search=%22checked_shl%22>`_ function and right shifts via the `checked_shr <https://doc.rust-lang.org/core/index.html?search=%22checked_shr%22>`_ function. Both of these functions exist in `core <https://doc.rust-lang.org/core/index.html>`_.
 
@@ -29,7 +32,7 @@
     * ``isize``
 
     .. rationale:: 
-        :id: rat_5pmnzKAN4skA 
+        :id: rat_eo9iSNAyUWop 
         :status: draft
 
         This is directly inspired by `INT34-C. Do not shift an expression by a negative number of bits or by greater than or equal to the number of bits that exist in the operand <https://wiki.sei.cmu.edu/confluence/display/c/INT34-C.+Do+not+shift+an+expression+by+a+negative+number+of+bits+or+by+greater+than+or+equal+to+the+number+of+bits+that+exist+in+the+operand>`_.
@@ -92,7 +95,7 @@
         This API has consistent behavior across ``Debug`` and ``Release``\ , and makes the programmer intent explicit, which effectively solves this issue.
 
     .. non_compliant_example::
-        :id: non_compl_ex_S5VnAJx9H8q1 
+        :id: non_compl_ex_4RnVPjQs06uM 
         :status: draft
 
         As seen below in the ``non_compliant_example()`` function:
@@ -128,7 +131,7 @@
               }
 
     .. compliant_example::
-        :id: compl_ex_tKfXqfcKgTvV 
+        :id: compl_ex_n0Is3JLe1YwT 
         :status: draft
 
         As seen below in the ``compliant_example()`` function:

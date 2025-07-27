@@ -1,25 +1,28 @@
+================
+test gatest ga
+================
 =====CONTENT=====
 
 .. guideline:: test ga
-    :id: gui_LzfV28IVG7qO 
+    :id: gui_irRvGs6pQsDQ 
     :category: advisory
     :status: draft
     :release: 1.1.1-1.1.1
     :fls: fls_fsdjkfslkdfj
     :decidability: decidable
     :scope: crate
-    :tags: test,gatest,ga
+    :tags: test gatest ga
 
     hehehehe
 
     .. rationale:: 
-        :id: rat_nPL2Cv7VBdqG 
+        :id: rat_dtzzrjsA2ShY 
         :status: draft
 
         test ga
 
     .. non_compliant_example::
-        :id: non_compl_ex_Bv7HMs0AVNlH 
+        :id: non_compl_ex_z824usgcSNr8 
         :status: draft
 
         test ga
@@ -29,7 +32,7 @@
             dfhsdfkjshdfskdjhftest ga
 
     .. compliant_example::
-        :id: compl_ex_H5Z7OsxZX3Ig 
+        :id: compl_ex_tzRbMfkM4NHX 
         :status: draft
 
         test ga

@@ -32,13 +32,11 @@ jobs:
           ${{ toJson(github.event.issue) }}
           EOF
 
-      - name: Commit generated guideline files
-        run: |
-          git add src/coding-guidelines/
-          git commit -m "Add guideline for issue #${{ github.event.issue.number }}" 
-
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
+        with:
+          add-paths: |
+            src/coding-guidelines/
         with:
           commit-message: |
             Add guideline for issue #${{ github.event.issue.number }}

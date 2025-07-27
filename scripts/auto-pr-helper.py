@@ -97,9 +97,6 @@ def guideline_template(fields: dict) -> str:
     compliant_example_prose_text = indent(
         md_to_rst(get("compliant_example_prose")), " " * 16
     )
-    print("================")
-    print(get("tags"))
-    print("================")
 
     guideline_text = guideline_rst_template(
         guideline_title=get("guideline_title"),

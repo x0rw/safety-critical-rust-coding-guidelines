@@ -1,10 +1,7 @@
-================
-numerics, reduce-human-error, maintainability, portability, surprising-behavior
-================
 =====CONTENT=====
 
 .. guideline:: Integer shift shall only be performed through `checked_` APIs
-    :id: gui_L1efkdhJroHY 
+    :id: gui_zMVugBA2A8hz 
     :category: mandatory
     :status: draft
     :release: 1.7.0-latest
@@ -32,7 +29,7 @@ numerics, reduce-human-error, maintainability, portability, surprising-behavior
     * ``isize``
 
     .. rationale:: 
-        :id: rat_eo9iSNAyUWop 
+        :id: rat_Ccy1VVgvSXVr 
         :status: draft
 
         This is directly inspired by `INT34-C. Do not shift an expression by a negative number of bits or by greater than or equal to the number of bits that exist in the operand <https://wiki.sei.cmu.edu/confluence/display/c/INT34-C.+Do+not+shift+an+expression+by+a+negative+number+of+bits+or+by+greater+than+or+equal+to+the+number+of+bits+that+exist+in+the+operand>`_.
@@ -95,7 +92,7 @@ numerics, reduce-human-error, maintainability, portability, surprising-behavior
         This API has consistent behavior across ``Debug`` and ``Release``\ , and makes the programmer intent explicit, which effectively solves this issue.
 
     .. non_compliant_example::
-        :id: non_compl_ex_4RnVPjQs06uM 
+        :id: non_compl_ex_keoHBPbqHD8t 
         :status: draft
 
         As seen below in the ``non_compliant_example()`` function:
@@ -131,7 +128,7 @@ numerics, reduce-human-error, maintainability, portability, surprising-behavior
               }
 
     .. compliant_example::
-        :id: compl_ex_n0Is3JLe1YwT 
+        :id: compl_ex_IG96LnSjFLTt 
         :status: draft
 
         As seen below in the ``compliant_example()`` function:

@@ -1,10 +1,7 @@
-================
-test gatest ga
-================
 =====CONTENT=====
 
 .. guideline:: test ga
-    :id: gui_irRvGs6pQsDQ 
+    :id: gui_3Wl9gOTto7p2 
     :category: advisory
     :status: draft
     :release: 1.1.1-1.1.1
@@ -16,13 +13,13 @@ test gatest ga
     hehehehe
 
     .. rationale:: 
-        :id: rat_dtzzrjsA2ShY 
+        :id: rat_PVjXjtM9G383 
         :status: draft
 
         test ga
 
     .. non_compliant_example::
-        :id: non_compl_ex_z824usgcSNr8 
+        :id: non_compl_ex_ABSVsT97MwLG 
         :status: draft
 
         test ga
@@ -32,7 +29,7 @@ test gatest ga
             dfhsdfkjshdfskdjhftest ga
 
     .. compliant_example::
-        :id: compl_ex_tzRbMfkM4NHX 
+        :id: compl_ex_Z9TjeDsRTnwL 
         :status: draft
 
         test ga

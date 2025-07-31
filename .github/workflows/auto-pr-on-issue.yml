@@ -28,7 +28,7 @@ jobs:
 
       - name: Run Python script to generate guideline file
         run: |
-          cat <<EOF | uv run python scripts/auto-pr-helper.py --save
+          cat <<'EOF' | uv run python scripts/auto-pr-helper.py --save
           ${{ toJson(github.event.issue) }}
           EOF
 

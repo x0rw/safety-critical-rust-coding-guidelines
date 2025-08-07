@@ -1,9 +1,10 @@
 # SPDX-License-Identifier: MIT OR Apache-2.0
 # SPDX-FileCopyrightText: The Coding Guidelines Subcommittee Contributors
 
+from urllib.parse import quote
+
 from docutils import nodes
 from sphinx.roles import SphinxRole
-from urllib.parse import quote
 
 
 class StdRefRole(SphinxRole):

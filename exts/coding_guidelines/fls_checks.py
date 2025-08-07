@@ -21,6 +21,7 @@ class FLSValidationError(SphinxError):
 def check_fls(app, env):
     """Main checking function for FLS validation"""
     # First make sure all guidelines have correctly formatted FLS IDs
+    #
     check_fls_exists_and_valid_format(app, env)
     offline_mode = env.config.offline
 

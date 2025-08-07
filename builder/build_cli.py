@@ -7,12 +7,13 @@
 # dependencies globally). Each book should have a `make.py` script that updates
 # the submodules, import this shared module, and calls the main function here.
 
-from pathlib import Path
 import argparse
-import subprocess
-import requests
 import json
+import subprocess
 import time
+from pathlib import Path
+
+import requests
 
 # Automatically watch the following extra directories when --serve is used.
 EXTRA_WATCH_DIRS = ["exts", "themes"]

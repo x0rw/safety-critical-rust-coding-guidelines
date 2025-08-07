@@ -6,8 +6,10 @@ import hashlib
 import json
 import os
 from collections import defaultdict
+
 import sphinx
 from sphinx_needs.data import SphinxNeedsData
+
 from .common import logger
 
 
